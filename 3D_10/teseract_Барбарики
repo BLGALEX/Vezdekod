@@ -1,0 +1,69 @@
+import bpy;
+
+side_len = 1
+
+vertices = [
+  [1,1,1],
+  [1,-1,1],
+  [-1,-1,1],
+  [-1,1,1],
+  [1,1,-1],
+  [1,-1,-1],
+  [-1,-1,-1],
+  [-1,1,-1],
+  [0.5,0.5,0.5],
+  [0.5,-0.5,0.5],
+  [-0.5,-0.5,0.5],
+  [-0.5,0.5,0.5],
+  [0.5,0.5,-0.5],
+  [0.5,-0.5,-0.5],
+  [-0.5,-0.5,-0.5],
+  [-0.5,0.5,-0.5],
+]
+
+edges = []
+
+faces = [
+  [0,1,2,3],
+  [0,1,5,4],
+  [0,3,7,4],
+  [4,5,6,7],
+  [6,5,1,2],
+  [6,7,3,2],
+  [8,9,10,11],
+  [8,9,13,12],
+  [8,11,15,12],
+  [12,13,14,15],
+  [14,13,9,10],
+  [14,15,11,10],
+  
+  [0, 8, 9, 1],
+  [1, 9, 10, 2],
+  [2, 10, 11, 3],
+  [0, 8, 11, 3],
+  [4, 12, 13, 5],
+  [13, 14, 6, 5],
+  [14, 15, 7, 6],
+  [12, 15, 7, 4],
+  [8, 12, 4, 0],
+  [11, 15, 7, 3],
+  [9, 13, 5, 1],
+  [10, 14, 6, 2],
+]
+
+name = "Teseract"
+mesh = bpy.data.meshes.new(name)
+mesh.from_pydata(vertices, edges, faces)
+
+obj = bpy.data.objects.new(name, mesh)
+
+obj.scale[0] = side_len/2
+obj.scale[1] = side_len/2
+obj.scale[2] = side_len/2
+
+col = bpy.data.collections.get("Collection")
+col.objects.link(obj)
+verts = obj.data.vertices
+bpy.context.view_layer.objects.active = obj
+bpy.ops.object.modifier_add(type='WIREFRAME') 
+
